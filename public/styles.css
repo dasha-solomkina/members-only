@@ -1,0 +1,76 @@
+* {
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+}
+
+body {
+  padding: 3%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 16px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+input {
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 16px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 3%;
+  max-width: 70%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  margin-top: 50px;
+}
+
+#github {
+  text-decoration: none;
+  color: white;
+  margin-left: 6px;
+}
+
+#github:hover {
+  color: orange;
+}

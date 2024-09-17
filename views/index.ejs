@@ -3,9 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+
     <title>Club</title>
   </head>
   <body>
-    <h1>Welcome to the club</h1>
+    <header>
+      <h1>Welcome to the club</h1>
+      <div>
+        <a href="">
+          <button>Log in</button>
+        </a>
+        <a href="/sign-up">
+          <button>Sign up</button>
+        </a>
+      </div>
+    </header>
+    <div class="container">
+      <h2>Messages</h2>
+      <% messages.forEach((message) => { %>
+      <div class="message">
+        <h3><%= message.title %></h3>
+        <p><%= message.time %></p>
+        <p><%= message.text %></p>
+      </div>
+
+      <%})%>
+    </div>
+    <footer>
+      designed by
+      <a id="github" href="https://github.com/dasha-solomkina"
+        >dasha-solomkina</a
+      >
+    </footer>
   </body>
 </html>
