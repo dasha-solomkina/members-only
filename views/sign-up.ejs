@@ -9,12 +9,44 @@
   </head>
   <body>
     <h1>Sign up to become a member</h1>
-    <form action="">
-      <input type="text" id="name" placeholder="Name" />
-      <input type="text" id="surname" placeholder="Surname" />
-      <input type="text" id="username" placeholder="Username" />
-      <input type="text" id="password" placeholder="Password" />
-      <input type="text" id="confirm-password" placeholder="Confirm password" />
+    <% if (error) { %>
+    <p style="color: red"><%= error %></p>
+    <% } %>
+
+    <form action="/sign-up" method="POST">
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Name"
+        value="<%= formData ? formData.name : '' %>"
+      />
+      <input
+        type="text"
+        id="surname"
+        name="surname"
+        placeholder="Surname"
+        value="<%= formData ? formData.surname : '' %>"
+      />
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Username"
+        value="<%= formData ? formData.username : '' %>"
+      />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+      />
+      <input
+        type="password"
+        id="confirm-password"
+        name="confirmPassword"
+        placeholder="Confirm password"
+      />
       <button type="submit">Submit</button>
     </form>
   </body>
