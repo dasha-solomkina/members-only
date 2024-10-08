@@ -14,6 +14,7 @@ app.use(passport.session())
 app.use(express.urlencoded({ extended: false }))
 // app.use(express.urlencoded({ extended: true }))
 app.use(express.static(assetsPath))
+const pool = require('./db/pool')
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
@@ -51,6 +52,14 @@ passport.deserializeUser(async (id, done) => {
     done(err)
   }
 })
+
+app.post(
+  '/log-in',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/',
+  })
+)
 
 app.use('/', indexRouter)
 

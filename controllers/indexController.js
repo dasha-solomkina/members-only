@@ -17,6 +17,30 @@ async function getSignUp(req, res) {
   }
 }
 
+async function getLogIn(req, res) {
+  try {
+    res.render('log-in')
+  } catch (error) {
+    res.status(500).send('Server error')
+  }
+}
+
+async function getRequestMembership(req, res) {
+  try {
+    res.render('request-membership')
+  } catch (error) {
+    res.status(500).send('Server error')
+  }
+}
+
+async function getNewMessage(req, res) {
+  try {
+    res.render('new-message')
+  } catch (error) {
+    res.status(500).send('Server error')
+  }
+}
+
 async function postSignUp(req, res, next) {
   const { username } = req.body
   try {
@@ -36,8 +60,23 @@ async function postSignUp(req, res, next) {
   }
 }
 
+async function postNewMessage(req, res, next) {
+  const { title, text } = req.body
+  try {
+    await db.createNewMessage(req.body)
+
+    res.redirect('/')
+  } catch (err) {
+    return next(err)
+  }
+}
+
 module.exports = {
   getHome,
   getSignUp,
   postSignUp,
+  getLogIn,
+  getRequestMembership,
+  getNewMessage,
+  postNewMessage,
 }
