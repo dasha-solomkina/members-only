@@ -9,7 +9,9 @@
   </head>
   <body>
     <h1>Enter a secret passcode 👽</h1>
-
+    <% if (error) { %>
+    <p style="color: red"><%= error %></p>
+    <% } %>
     <form action="/request-membership" method="POST">
       <input type="text" id="code" name="code" placeholder="secret code" />
 
@@ -17,6 +19,3 @@
     </form>
   </body>
 </html>
-
-<!-- understand why the data is not being set correctly - create a new message
- in the data base -->

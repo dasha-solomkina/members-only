@@ -36,9 +36,21 @@ async function createNewMessage({
   }
 }
 
+async function updateMembership({ username }) {
+  const query = 'UPDATE users SET membership = $1 WHERE username = $2'
+
+  try {
+    await pool.query(query, [true, username])
+  } catch (err) {
+    console.error('Error inserting new message:', err)
+    throw err
+  }
+}
+
 module.exports = {
   getAllMessagesNoNames,
   checkUsernameExists,
   createNewUser,
   createNewMessage,
+  updateMembership,
 }

@@ -1,4 +1,5 @@
 const db = require('../db/queries')
+const bcrypt = require('bcryptjs')
 
 async function getHome(req, res) {
   try {
@@ -18,6 +19,7 @@ async function getSignUp(req, res) {
 }
 
 async function getLogIn(req, res) {
+  console.log(req.user)
   try {
     res.render('log-in')
   } catch (error) {
@@ -27,7 +29,7 @@ async function getLogIn(req, res) {
 
 async function getRequestMembership(req, res) {
   try {
-    res.render('request-membership')
+    res.render('request-membership', { error: false })
   } catch (error) {
     res.status(500).send('Server error')
   }
@@ -42,9 +44,10 @@ async function getNewMessage(req, res) {
 }
 
 async function postSignUp(req, res, next) {
-  const { username } = req.body
+  const { username, password } = req.body
   try {
     const userExists = await db.checkUsernameExists({ username })
+
     if (userExists) {
       return res.render('sign-up', {
         error: 'Username already taken. Please choose another one.',
@@ -52,12 +55,54 @@ async function postSignUp(req, res, next) {
       })
     }
 
-    await db.createNewUser(req.body)
+    const hashedPassword = await bcrypt.hash(password, 10)
+    await db.createNewUser({ ...req.body, password: hashedPassword })
+
+    // await db.createNewUser(req.body)
 
     res.redirect('/')
   } catch (err) {
     return next(err)
   }
+}
+
+// async function postRequestMembership(req, res, next) {
+//   const { code } = req.body
+//   console.log(code)
+//   console.log(req.user)
+
+//   try {
+//     if (req.isAuthenticated()) {
+//       console.log('inside')
+//       return next()
+//     }
+
+//     res.redirect('/')
+//   } catch (err) {
+//     return next(err)
+//   }
+// }
+
+async function postRequestMembership(req, res, next) {
+  const { code } = req.body
+  const { username } = req.user
+
+  // if (code === 'BUGFIX') {
+  //   db.updateMembership(username)
+  //   res.redirect('/')
+  // }
+  // res.render('request-membership', {
+  //   error: 'Incorrect code, please try again.',
+  // })
+  if (code === 'BUGFIX') {
+    await db.updateMembership(username) // Ensure you await the database operation if it's async
+    return res.redirect('/') // Return here to prevent further execution
+  }
+
+  // If the code is incorrect, render the page with an error message
+  return res.render('request-membership', {
+    error: 'Incorrect code, please try again.',
+  })
 }
 
 async function postNewMessage(req, res, next) {
@@ -79,4 +124,7 @@ module.exports = {
   getRequestMembership,
   getNewMessage,
   postNewMessage,
+  postRequestMembership,
 }
+
+// undersatnd why it is not updated in the DB

@@ -10,7 +10,8 @@ indexRouter.post('/sign-up', indexController.postSignUp)
 
 indexRouter.get('/log-in', indexController.getLogIn)
 indexRouter.get('/request-membership', indexController.getRequestMembership)
-indexRouter.get('/new-message', indexController.getNewMessage)
-indexRouter.post('/new-message', indexController.postNewMessage)
+indexRouter.post('/request-membership', indexController.postRequestMembership)
+// indexRouter.get('/new-message', indexController.getNewMessage)
+// indexRouter.post('/new-message', indexController.postNewMessage)
 
 module.exports = indexRouter
