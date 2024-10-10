@@ -61,26 +61,26 @@ passport.deserializeUser(async (id, done) => {
   }
 })
 
-// app.post(
-//   '/log-in',
-//   passport.authenticate('local', {
-//     successRedirect: '/',
-//     failureRedirect: '/log-in',
-//   })
-// )
-
 app.post(
   '/log-in',
   passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/log-in',
-  }),
-  (req, res) => {
-    // This function won't be executed if the authentication fails
-    console.log('Authenticated:', req.isAuthenticated())
-    console.log('User:', req.user)
-  }
+  })
 )
+
+// app.post(
+//   '/log-in',
+//   passport.authenticate('local', {
+//     successRedirect: '/',
+//     failureRedirect: '/log-in',
+//   }),
+//   (req, res) => {
+//     // This function won't be executed if the authentication fails
+//     console.log('Authenticated:', req.isAuthenticated())
+//     console.log('User:', req.user)
+//   }
+// )
 
 app.use('/', indexRouter)
 

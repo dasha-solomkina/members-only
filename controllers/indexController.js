@@ -19,7 +19,6 @@ async function getSignUp(req, res) {
 }
 
 async function getLogIn(req, res) {
-  console.log(req.user)
   try {
     res.render('log-in')
   } catch (error) {
@@ -58,48 +57,20 @@ async function postSignUp(req, res, next) {
     const hashedPassword = await bcrypt.hash(password, 10)
     await db.createNewUser({ ...req.body, password: hashedPassword })
 
-    // await db.createNewUser(req.body)
-
     res.redirect('/')
   } catch (err) {
     return next(err)
   }
 }
 
-// async function postRequestMembership(req, res, next) {
-//   const { code } = req.body
-//   console.log(code)
-//   console.log(req.user)
-
-//   try {
-//     if (req.isAuthenticated()) {
-//       console.log('inside')
-//       return next()
-//     }
-
-//     res.redirect('/')
-//   } catch (err) {
-//     return next(err)
-//   }
-// }
-
 async function postRequestMembership(req, res, next) {
   const { code } = req.body
-  const { username } = req.user
 
-  // if (code === 'BUGFIX') {
-  //   db.updateMembership(username)
-  //   res.redirect('/')
-  // }
-  // res.render('request-membership', {
-  //   error: 'Incorrect code, please try again.',
-  // })
   if (code === 'BUGFIX') {
-    await db.updateMembership(username) // Ensure you await the database operation if it's async
-    return res.redirect('/') // Return here to prevent further execution
+    await db.updateMembership(req.user)
+    return res.redirect('/')
   }
 
-  // If the code is incorrect, render the page with an error message
   return res.render('request-membership', {
     error: 'Incorrect code, please try again.',
   })
