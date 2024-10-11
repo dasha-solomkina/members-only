@@ -11,7 +11,9 @@ async function getHome(req, res) {
       time: format(new Date(message.time), 'p MMMM d, yyyy'),
     }))
 
-    res.render('index', { messages: formattedMessages })
+    const reversedMessages = formattedMessages.reverse()
+
+    res.render('index', { messages: reversedMessages })
   } catch (error) {
     res.status(500).send('Server error')
   }
@@ -60,7 +62,7 @@ async function postSignUp(req, res, next) {
       error: errors
         .array()
         .map((error) => error.msg)
-        .join(', '), // Collect error messages
+        .join(', '),
       formData: req.body,
     })
   }
@@ -68,7 +70,6 @@ async function postSignUp(req, res, next) {
   try {
     const userExists = await db.checkUsernameExists({ username })
 
-    console.log('userExists')
     if (userExists) {
       return res.render('sign-up', {
         error: 'Username already taken. Please choose another one.',
@@ -77,9 +78,19 @@ async function postSignUp(req, res, next) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
-    await db.createNewUser({ ...req.body, password: hashedPassword })
+    await db.createNewUser({
+      ...req.body,
+      password: hashedPassword,
+    })
 
-    res.redirect('/')
+    const newUser = await db.getUserByUsername(req.body.username)
+
+    req.login(newUser, (err) => {
+      if (err) {
+        return next(err)
+      }
+      return res.redirect('/')
+    })
   } catch (err) {
     return next(err)
   }

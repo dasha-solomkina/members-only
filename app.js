@@ -23,8 +23,6 @@ app.use((req, res, next) => {
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
-    console.log('Username:', username)
-    console.log('Password:', password)
     try {
       const { rows } = await pool.query(
         'SELECT * FROM users WHERE username = $1',
@@ -69,18 +67,14 @@ app.post(
   })
 )
 
-// app.post(
-//   '/log-in',
-//   passport.authenticate('local', {
-//     successRedirect: '/',
-//     failureRedirect: '/log-in',
-//   }),
-//   (req, res) => {
-//     // This function won't be executed if the authentication fails
-//     console.log('Authenticated:', req.isAuthenticated())
-//     console.log('User:', req.user)
-//   }
-// )
+app.get('/log-out', (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err)
+    }
+    res.redirect('/')
+  })
+})
 
 app.use('/', indexRouter)
 

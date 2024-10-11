@@ -1,9 +1,9 @@
 const pool = require('./pool')
 
 async function getAllMessagesNoNames() {
-  // TODO: I think will need to fix later to get everything
-  // and change the display logic on the page already
-  const { rows } = await pool.query('SELECT title, time, text FROM messages')
+  const { rows } = await pool.query(
+    'SELECT title, time, text, author_name FROM messages'
+  )
   return rows
 }
 

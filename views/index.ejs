@@ -9,8 +9,28 @@
   </head>
   <body>
     <header>
+      <% if (currentUser) {%>
+      <h1>Welcome back <%= currentUser.name %>!</h1>
+      <div class="nav">
+        <a href="/log-out">
+          <button>Log out</button>
+        </a>
+        <% if (currentUser.membership) { %>
+
+        <div>
+          <img src="/premium.png" alt="" />
+        </div>
+
+        <% } else { %>
+        <a href="/request-membership">
+          <button>Become a member</button>
+        </a>
+        <% } %>
+      </div>
+
+      <% } else {%>
       <h1>Welcome to the club</h1>
-      <div>
+      <div class="nav">
         <a href="/log-in">
           <button>Log in</button>
         </a>
@@ -18,27 +38,37 @@
         <a href="/sign-up">
           <button>Sign up</button>
         </a>
-
-        <a href="/request-membership">
-          <button>Become a member</button>
-        </a>
       </div>
+
+      <% } %>
     </header>
+
     <div class="container">
-      <h2>Messages</h2>
+      <h2>Messages Board</h2>
+      <% if (currentUser) {%>
       <a href="/new-message">
-        <button>New message</button>
+        <button id="new-message">New message</button>
       </a>
 
-      <% messages.forEach((message) => { %>
+      <% } %> <% if (currentUser && currentUser.membership) {%> <%
+      messages.forEach((message) => { %>
       <div class="message">
         <h3><%= message.title %></h3>
-        <p><%= message.time %></p>
+        <p class="time">
+          Posted at <%= message.time %> by <%= message.author_name %>
+        </p>
         <p><%= message.text %></p>
       </div>
-
       <%})%>
     </div>
+    <% } else { %> <% messages.forEach((message) => { %>
+    <div class="message">
+      <h3><%= message.title %></h3>
+      <p class="time">Posted at <%= message.time %></p>
+      <p><%= message.text %></p>
+    </div>
+    <%})%> <% } %>
+
     <footer>
       designed by
       <a id="github" href="https://github.com/dasha-solomkina"
