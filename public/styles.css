@@ -75,6 +75,8 @@ header {
   flex-direction: column;
   gap: 20px;
   align-items: center;
+  /* justify-content: space-between; */
+  min-height: 100vh;
 }
 
 #new-message {
@@ -90,7 +92,7 @@ footer {
   justify-content: center;
   align-items: center;
   height: 50px;
-  margin-top: 50px;
+  margin-top: auto;
   width: 100%;
 }
 
